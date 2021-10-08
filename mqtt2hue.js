@@ -27,7 +27,7 @@ function lightoff (t) {
 }
 
 async function updateState () {
-  if (debug) console.log(JSON.stringify(state))
+  if (debug) console.log(JSON.stringify(state,null,2))
   try {
     await updateStateInternal()
   } catch (e)
@@ -43,14 +43,16 @@ async function updateStateInternal () {
   let k = Object.keys(state.lights)
   if (!client) return
   for (let n of k) {
+    if(state.lights[n].type==="Configuration tool") continue;
     let topic = 'light/' + n
     if (subscribed[topic] !== n) {
       subscribed[topic] = n
       await client.subscribe(topic)
       await client.subscribe(topic + '/bri')
+      await client.publish(topic + '/name',state.lights[n].name,{retain:true})
     }
     if (oldState === null || state.lights[n].state.on !== oldState.lights[n].state.on) {
-      await client.publish(topic, state.lights[n].state.on ? '1' : '0')
+      await client.publish(topic, state.lights[n].state.on ? '1' : '0',{retain:true})
     }
   }
 }
