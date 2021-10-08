@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "async-mqtt": "^2.6.1",
-    "jsonpath": "^1.0.2",
-    "mqtt": "^4.2.1",
+    "jsonpath": "^1.1.1",
+    "mqtt": "^4.2.8",
     "node-fetch": "^2.6.1"
   }
 }
